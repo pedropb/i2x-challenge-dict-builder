@@ -1,9 +1,11 @@
 from zipfile import ZipFile
 import os, sys
 from shutil import rmtree 
+from numpy import random
 
 FILENAME = "Word-lists-in-csv.zip"
 PATH = "Word lists in csv/"
+WORDS_FILE = "words.txt"
 
 def extract_zip(filename):
     if os.path.exists(PATH):
@@ -25,8 +27,19 @@ def concatenate_files(dir_path, output_file):
             with open(f, 'r') as inp:
                 out.write(inp.read())
 
+def load_dictionary(words_file):
+    dictionary = set()
+    with open(words_file, 'r') as words:
+        for word in words:
+            dictionary.add(word.strip().lower())
+
+    return list(dictionary)
 
 extract_zip(FILENAME)
-concatenate_files(PATH, "words.txt")
+concatenate_files(PATH, WORDS_FILE)
+dictionary = load_dictionary(WORDS_FILE)
+
+print("Printing 30 random words")
+print(random.choice(dictionary, 30))
 
 
